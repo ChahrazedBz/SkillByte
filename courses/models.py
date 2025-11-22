@@ -1,5 +1,6 @@
 import uuid
 
+from django.conf import settings
 from django.db import models
 
 from users.models import User
@@ -11,8 +12,19 @@ LEVELS = (
 )
 
 
+class Category(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    slug = models.SlugField(unique=True, blank=True, null=True)
+
+    class Meta:
+        verbose_name_plural = "categories"
+
+    def __str__(self):
+        return str(self.name)
+
+
 class Course(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    cid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=30)
     slug = models.SlugField(unique=True, null=True, blank=True)
     description = models.TextField(blank=True, null=True)
@@ -22,6 +34,7 @@ class Course(models.Model):
         related_name="courses",
         limit_choices_to={"role": "instructor"},
     )
+    category = models.ManyToManyField(Category, blank=True, related_name="courses")
     duration = models.PositiveIntegerField(null=True, blank=True)
     duration_unit = models.CharField(max_length=20, default="hours")
     price = models.DecimalField(max_digits=8, decimal_places=2, default="0.00")
@@ -39,6 +52,11 @@ class Course(models.Model):
 
     def students_enrolled(self):
         return self.enrolled_students.count()
+
+    def thumbnail_url(self):
+        if self.thumbnail:
+            return f"{settings.WEBSITE_URL}{self.thumbnail.url}"
+        return f"{settings.WEBSITE_URL}default_thumbanl.png"
 
     @property
     def average_rating(self):

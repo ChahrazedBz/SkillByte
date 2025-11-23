@@ -6,6 +6,7 @@ from .models import Course
 class CourseListSrializers(serializers.ModelSerializer):
     instructor = serializers.SerializerMethodField()
     created_at = serializers.DateTimeField(format="%Y-%m-%d")
+    category=serializers.StringRelatedField(many=True)
 
     class Meta:
         model = Course
@@ -19,6 +20,7 @@ class CourseListSrializers(serializers.ModelSerializer):
             "level",
             "certified",
             "thumbnail_url",
+            "lesson_count",
             "created_at",
         )
 

@@ -1,0 +1,29 @@
+POST http://127.0.0.1:8000/api/register/ 
+Content-Type: application/json
+
+{
+    "first_name":"Malek",
+    "last_name":"Rahmani",
+    "email":"malek_rahmani@gamil.com",
+    "password":"test@123"
+}
+
+###
+
+POST  http://127.0.0.1:8000/api/token/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY0NjMwMzUwLCJpYXQiOjE3NjQ2MjY3NTEsImp0aSI6IjgwNWIzMzM2M2M3YjQyMjZhNWNhNWQxODg4MmY1MTkwIiwidXNlcl9pZCI6ImU3OTBkOTNlLTE1YjEtNDM1NS04MmU5LTc3NTJkMDZiNGY5YSJ9.Qb9M2-5ISMMq5o7Ef9m2KenkwaL5Tz_rEE-XtPnlwbA
+
+{
+    "username":"Malek",
+    "email":"malek_rahmani@gamil.com",
+    "password":"test@123"
+}
+
+###
+POST  http://127.0.0.1:8000/api/token/refresh/
+Content-Type: application/json
+
+{
+   "refresh":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY0NjMwNTA5LCJpYXQiOjE3NjQ2MjY5MDksImp0aSI6ImIxMDU3ZmM2YzcwZjQxZTY4ZGFjY2Q3MDA4YmRjZTI5IiwidXNlcl9pZCI6ImU3OTBkOTNlLTE1YjEtNDM1NS04MmU5LTc3NTJkMDZiNGY5YSJ9.vZgYFVdUwl7zdZ3iFW0HZL3KKS8SVyyYzqETKTazgY8"
+}

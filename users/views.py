@@ -1,11 +1,12 @@
-from rest_framework import status
-from rest_framework.permissions import AllowAny
+from rest_framework import status, viewsets
+from rest_framework.generics import RetrieveUpdateAPIView
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from .models import User
-from .serializers import RegisterSerializers
+from .serializers import ProfileSerializer, RegisterSerializers
 
 
 class RegisterView(APIView):
@@ -29,3 +30,11 @@ class RegisterView(APIView):
             },
             status=status.HTTP_201_CREATED,
         )
+
+
+class RetrieveUpdateProfile(RetrieveUpdateAPIView):
+    serializer_class = ProfileSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user

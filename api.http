@@ -30,7 +30,7 @@ Content-Type: application/json
 
 ###
 GET  http://127.0.0.1:8000/profile/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY1MDU4NDE0LCJpYXQiOjE3NjUwNTQ4MTQsImp0aSI6IjE2MDc4ODlhNmVhZjRjNTFhNTExZDE0ZDZkODIzNGUyIiwidXNlcl9pZCI6ImU3OTBkOTNlLTE1YjEtNDM1NS04MmU5LTc3NTJkMDZiNGY5YSJ9.F6i2GqIrFS59WEyw-utPrKEqgzaUmeh_qySmG26nJUo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY2MTg2NTgzLCJpYXQiOjE3NjYxODI5ODMsImp0aSI6IjFmYzI4NzFmYjU5OTRjMGZhYzQ5NThiOGI4YThiYmMxIiwidXNlcl9pZCI6ImU3OTBkOTNlLTE1YjEtNDM1NS04MmU5LTc3NTJkMDZiNGY5YSJ9.s0ebunOyv8UOUIdwX7bzTGEqoPakli3MVtHfD6wtRV0
 
 ###
 PATCH   http://127.0.0.1:8000/profile/
@@ -40,3 +40,39 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
 {
     "country":"Algeria"
 }
+
+###
+PATCH  http://127.0.0.1:8000/change_password/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY2MTc5NzY2LCJpYXQiOjE3NjYxNzYxNjYsImp0aSI6ImYyODQ0OWZhMjJjYzQxNjViOGY3YWUzM2ZhOTdiMzgxIiwidXNlcl9pZCI6ImU3OTBkOTNlLTE1YjEtNDM1NS04MmU5LTc3NTJkMDZiNGY5YSJ9.I4XXMWqd12xoOkBG9i2bHZKPgLXi_g0VUD2XZDUp61k
+
+{
+    "old_password":"test@1234",
+    "new_password":"test@123"
+}
+
+###
+GET http://127.0.0.1:8000/courses/
+Content-Type: application/json
+
+###
+GET http://127.0.0.1:8000/courses/8b73ceb4-1e03-4378-86ca-923295997b9f/
+Content-Type: application/json
+
+###
+
+POST http://127.0.0.1:8000/courses/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY2MTg2NTgzLCJpYXQiOjE3NjYxODI5ODMsImp0aSI6IjFmYzI4NzFmYjU5OTRjMGZhYzQ5NThiOGI4YThiYmMxIiwidXNlcl9pZCI6ImU3OTBkOTNlLTE1YjEtNDM1NS04MmU5LTc3NTJkMDZiNGY5YSJ9.s0ebunOyv8UOUIdwX7bzTGEqoPakli3MVtHfD6wtRV0
+
+{
+  "title": "Django REST Framework",
+  "description": "Complete DRF course for beginners",
+  "category": [1, 2],     
+  "duration": 10,
+  "duration_unit": "hours",
+  "price": "49.99",
+  "level": "Beginner",
+  "certified": true
+}
+

@@ -10,10 +10,14 @@ class UserCustomManager(UserManager):
     def _create_user(self, email, password, **extra_fields):
         if not email:
             raise ValueError("Email is required")
-
+        
+        #Normalize email -> TEST@GMAIL.com ->test@gmail.com
         email = self.normalize_email(email)
+        #create user instance
         user = self.model(email=email, **extra_fields)
+        #hash password
         user.set_password(password)
+        #save using correct db
         user.save(using=self._db)
 
         return user

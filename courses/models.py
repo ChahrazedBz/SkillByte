@@ -59,7 +59,7 @@ class Course(models.Model):
         return f"{settings.WEBSITE_URL}default_thumbanl.png"
 
     @property
-    def average_rating(self):
+    def average_rating(self):##
         avg = self.ratings.aggregate(models.Avg("rating"))["rating__avg"]
         return round(avg, 2) if avg else None
 
@@ -81,7 +81,7 @@ class Lesson(models.Model):
     order = models.PositiveIntegerField(default=1)
 
     class Meta:
-        unique_together = ("course", "order")
+        unique_together = ("course", "order")##
         ordering = ["order"]
 
     def __str__(self):
@@ -120,7 +120,7 @@ class Rating(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ("course", "student")
+        unique_together = ("course", "student")#
 
     def __str__(self):
         return f"{self.student} rated {self.course} with {self.rating}"

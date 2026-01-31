@@ -16,7 +16,7 @@ class RegisterView(APIView):
         serializer = RegisterSerializers(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        # Create the user
+        # Create the user : save call the create function in Rgister serializer
         user = serializer.save()
 
         # Create JWT tokens

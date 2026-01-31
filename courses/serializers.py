@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Course, Lesson, Rating
+from .models import *
 
 # display all courses
 class CourseListSerializers(serializers.ModelSerializer):
@@ -28,7 +28,7 @@ class CourseListSerializers(serializers.ModelSerializer):
         return obj.instructor.get_full_name()
 
 
-class LessonListSerializer(serializers.ModelSerializer):
+class LessonListCreateUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lesson
         fields = ["title", "content", "resources", "video_url", "duration", "order"]
@@ -46,7 +46,7 @@ class RatingSerializer(serializers.ModelSerializer):
 
 #display course by id
 class CourseDetailSerializer(serializers.ModelSerializer):
-    lessons = LessonListSerializer(many=True, read_only=True)
+    lessons = LessonListCreateUpdateSerializer(many=True, read_only=True)
     ratings = RatingSerializer(many=True, read_only=True)
     instructor = serializers.SerializerMethodField()
     category = serializers.StringRelatedField(many=True)
@@ -76,7 +76,7 @@ class CourseDetailSerializer(serializers.ModelSerializer):
 #create or update course
 class CourseCreateUpdateSerializer(serializers.ModelSerializer):
     class Meta:
-        mode=Course
+        model=Course
         fields = (
             "title",
             "description",
@@ -88,3 +88,10 @@ class CourseCreateUpdateSerializer(serializers.ModelSerializer):
             "certified",
 
         )
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Category
+        fields=['id','name','slug']
+
+

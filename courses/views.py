@@ -12,7 +12,7 @@ from rest_framework.permissions import (
 )
 from rest_framework.response import Response
 
-from .models import Course
+from .models import *
 from .permission import isInstructor, isOwnerInstructor
 from .serializers import (
     CourseCreateUpdateSerializer,
@@ -58,3 +58,21 @@ class CourseViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(instructor=self.request.user)
+
+
+class LessonViewSet(viewsets.ModelViewSet):
+    queryset=Lesson.objects.all()
+    
+    def get_object(self):
+        return self.request.user
+    
+    def get_permissions(self):
+        if self.action in ["list","retrieve"]:
+            return [AllowAny()]
+        if self.action in ["create","update","delete"]:
+            return [IsAuthenticated(),isInstructor(),isOwnerInstructor()]
+        return [IsAuthenticated()]
+    
+    def perform_create(self, serializer):
+        serializer.save(instructor=self.request.user)
+        

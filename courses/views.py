@@ -15,9 +15,11 @@ from rest_framework.response import Response
 from .models import *
 from .permission import isInstructor, isOwnerInstructor
 from .serializers import (
+    CategorySerializer,
     CourseCreateUpdateSerializer,
     CourseDetailSerializer,
     CourseListSerializers,
+    LessonListCreateUpdateSerializer,
 )
 
 # @api_view(["GET"])
@@ -61,18 +63,22 @@ class CourseViewSet(viewsets.ModelViewSet):
 
 
 class LessonViewSet(viewsets.ModelViewSet):
-    queryset=Lesson.objects.all()
-    
-    def get_object(self):
-        return self.request.user
-    
+    queryset = Lesson.objects.all()
+    serializer_class = LessonListCreateUpdateSerializer
+
+
     def get_permissions(self):
-        if self.action in ["list","retrieve"]:
+        if self.action in ["list", "retrieve"]:
             return [AllowAny()]
-        if self.action in ["create","update","delete"]:
-            return [IsAuthenticated(),isInstructor(),isOwnerInstructor()]
+        if self.action in ["create", "update", "delete"]:
+            return [IsAuthenticated(), isInstructor(), isOwnerInstructor()]
         return [IsAuthenticated()]
-    
+
     def perform_create(self, serializer):
-        serializer.save(instructor=self.request.user)
-        
+        serializer.save()
+
+
+class CategoryList(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    permission_classes = [AllowAny]

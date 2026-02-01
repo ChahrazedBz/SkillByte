@@ -76,3 +76,36 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
   "certified": true
 }
 
+###
+GET http://127.0.0.1:8000/categories/
+Content-Type: application/json
+
+###
+GET http://127.0.0.1:8000/lessons/
+Content-Type: application/json
+
+###
+POST http://127.0.0.1:8000/lessons/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY5OTczMzY2LCJpYXQiOjE3Njk5Njk3NjYsImp0aSI6ImQ0NGIzOWE3ZDdmZTQ1NTc4OGQwOTY2OTk0MDdlNDA0IiwidXNlcl9pZCI6ImU3OTBkOTNlLTE1YjEtNDM1NS04MmU5LTc3NTJkMDZiNGY5YSJ9.1r9LUFrgjONQ8h9HIbRhmX6ReX2zQ95ypTyv48d9Jho
+
+{
+    "course":"8b73ceb4-1e03-4378-86ca-923295997b9f",
+    "title":"Data Analyst",
+    "content":"about data analyst eps 1",
+    "duration":"4",
+    "order":3
+}
+
+###
+PUT  http://127.0.0.1:8000/lessons/5/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY5OTczMzY2LCJpYXQiOjE3Njk5Njk3NjYsImp0aSI6ImQ0NGIzOWE3ZDdmZTQ1NTc4OGQwOTY2OTk0MDdlNDA0IiwidXNlcl9pZCI6ImU3OTBkOTNlLTE1YjEtNDM1NS04MmU5LTc3NTJkMDZiNGY5YSJ9.1r9LUFrgjONQ8h9HIbRhmX6ReX2zQ95ypTyv48d9Jho
+
+{
+    "course":"8b73ceb4-1e03-4378-86ca-923295997b9f",
+    "title":"Machine learning eps3",
+    "content":"about data analyst eps 3",
+    "duration":"4",
+    "order":3
+}

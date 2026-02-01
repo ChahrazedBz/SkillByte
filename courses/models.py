@@ -10,6 +10,10 @@ LEVELS = (
     ("Intermediate", "Intermediate"),
     ("Advanced", "Advanced"),
 )
+DURATION=(
+    ("hours","hours"),
+    ("minutes","minutes")
+)
 
 
 class Category(models.Model):
@@ -36,7 +40,7 @@ class Course(models.Model):
     )
     category = models.ManyToManyField(Category, blank=True, related_name="courses")
     duration = models.PositiveIntegerField(null=True, blank=True)
-    duration_unit = models.CharField(max_length=20, default="hours")
+    duration_unit = models.CharField(max_length=20,choices=DURATION, default="hours")
     price = models.DecimalField(max_digits=8, decimal_places=2, default="0.00")
     level = models.CharField(max_length=20, choices=LEVELS, default="Beginner")
     is_active = models.BooleanField(default=True)
@@ -59,7 +63,7 @@ class Course(models.Model):
         return f"{settings.WEBSITE_URL}default_thumbanl.png"
 
     @property
-    def average_rating(self):##
+    def average_rating(self):
         avg = self.ratings.aggregate(models.Avg("rating"))["rating__avg"]
         return round(avg, 2) if avg else None
 
@@ -78,6 +82,7 @@ class Lesson(models.Model):
     resources = models.FileField(upload_to="resources/", null=True, blank=True)
     video_url = models.URLField(max_length=255, null=True, blank=True)
     duration = models.PositiveIntegerField(null=True, blank=True)
+    duration_unit = models.CharField(max_length=20, choices=DURATION,default="hours")
     order = models.PositiveIntegerField(default=1)
 
     class Meta:

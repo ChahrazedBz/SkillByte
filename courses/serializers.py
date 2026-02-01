@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from .models import *
 
+
 # display all courses
 class CourseListSerializers(serializers.ModelSerializer):
     instructor = serializers.SerializerMethodField()
@@ -29,9 +30,31 @@ class CourseListSerializers(serializers.ModelSerializer):
 
 
 class LessonListCreateUpdateSerializer(serializers.ModelSerializer):
+    # WRITE: accept course ID
+    course = serializers.PrimaryKeyRelatedField(
+        queryset=Course.objects.all()
+    )
+
+    # READ: return course slug
+    course_slug = serializers.CharField(
+        source="course.slug",
+        read_only=True
+    )
+
     class Meta:
         model = Lesson
-        fields = ["title", "content", "resources", "video_url", "duration", "order"]
+        fields = [
+            "course",
+            "course_slug",
+            "title",
+            "content",
+            "resources",
+            "video_url",
+            "duration",
+            "duration_unit",
+            "order",
+        ]
+
 
 
 class RatingSerializer(serializers.ModelSerializer):
@@ -44,7 +67,8 @@ class RatingSerializer(serializers.ModelSerializer):
     def get_student(self, obj):
         return obj.student.get_full_name()
 
-#display course by id
+
+# display course by id
 class CourseDetailSerializer(serializers.ModelSerializer):
     lessons = LessonListCreateUpdateSerializer(many=True, read_only=True)
     ratings = RatingSerializer(many=True, read_only=True)
@@ -73,10 +97,10 @@ class CourseDetailSerializer(serializers.ModelSerializer):
         return obj.instructor.get_full_name()
 
 
-#create or update course
+# create or update course
 class CourseCreateUpdateSerializer(serializers.ModelSerializer):
     class Meta:
-        model=Course
+        model = Course
         fields = (
             "title",
             "description",
@@ -86,12 +110,10 @@ class CourseCreateUpdateSerializer(serializers.ModelSerializer):
             "price",
             "level",
             "certified",
-
         )
+
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
-        model=Category
-        fields=['id','name','slug']
-
-
+        model = Category
+        fields = ["id", "name", "slug"]

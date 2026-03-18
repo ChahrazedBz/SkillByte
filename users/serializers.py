@@ -9,15 +9,18 @@ class RegisterSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ["first_name", "last_name", "email", "password"]
+        fields = ["first_name", "last_name", "email", "password", "role"]  # ← add role
 
-    # validate email
-    def validate(self, value):
+    def validate_email(self, value):
         if User.objects.filter(email=value).exists():
             raise serializers.ValidationError("Email already exists")
         return value
 
-    # create new user
+    def validate_role(self, value):
+        if value not in ["student", "instructor"]:
+            raise serializers.ValidationError("Role must be student or instructor")
+        return value
+
     def create(self, validated_data):
         password = validated_data.pop("password")
         user = User(**validated_data)
@@ -52,3 +55,9 @@ class PasswordSerializer(serializers.Serializer):
         password_validation.validate_password(value)
         return value
 
+from .models import InstructorProfile
+
+class InstructorProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = InstructorProfile
+        fields = ["bio", "expertise", "cv", "linkdin", "instegram", "facebook"]

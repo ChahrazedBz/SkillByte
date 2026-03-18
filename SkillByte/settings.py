@@ -55,7 +55,7 @@ INSTALLED_APPS = [
 ]
 
 SITE_ID = 1
-WEBSITE_URL = "http://127.0.0.1:8000"
+WEBSITE_URL = "http://localhost:8000"
 
 
 SIMPLE_JWT = {
@@ -85,12 +85,14 @@ REST_FRAMEWORK = {
     ),
 }
 
-CORS_ALLOWED_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  
+]
 
 MIDDLEWARE = [
-    "django.middleware.security.SecurityMiddleware",
-    "django.contrib.sessions.middleware.SessionMiddleware",
     "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",   
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",

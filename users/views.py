@@ -4,8 +4,10 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
-
+from .models import InstructorProfile
 from .models import User
+from rest_framework.generics import RetrieveUpdateAPIView
+from rest_framework.permissions import IsAuthenticated
 from .serializers import PasswordSerializer, ProfileSerializer, RegisterSerializers
 
 
@@ -39,6 +41,16 @@ class RetrieveUpdateProfile(RetrieveUpdateAPIView):
     def get_object(self):
         return self.request.user
 
+class InstructorProfileView(RetrieveUpdateAPIView):
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        profile, created = InstructorProfile.objects.get_or_create(user=self.request.user)
+        return profile
+
+    def get_serializer_class(self):
+        from .serializers import InstructorProfileSerializer
+        return InstructorProfileSerializer
 
 class ChangePasswordView(generics.UpdateAPIView):
     serializer_class = PasswordSerializer

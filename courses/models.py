@@ -29,6 +29,7 @@ class Category(models.Model):
 
 class Course(models.Model):
     cid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    is_approved = models.BooleanField(default=False)
     title = models.CharField(max_length=30)
     slug = models.SlugField(unique=True, null=True, blank=True)
     description = models.TextField(blank=True, null=True)
@@ -60,8 +61,7 @@ class Course(models.Model):
     def thumbnail_url(self):
         if self.thumbnail:
             return f"{settings.WEBSITE_URL}{self.thumbnail.url}"
-        return f"{settings.WEBSITE_URL}default_thumbanl.png"
-
+        return None   # ← return None instead of broken default URL
     @property
     def average_rating(self):
         avg = self.ratings.aggregate(models.Avg("rating"))["rating__avg"]
@@ -129,3 +129,22 @@ class Rating(models.Model):
 
     def __str__(self):
         return f"{self.student} rated {self.course} with {self.rating}"
+
+class LessonProgress(models.Model):
+    student = models.ForeignKey(
+        User, on_delete=models.CASCADE,
+        related_name="lesson_progress",
+        limit_choices_to={"role": "student"}
+    )
+    lesson = models.ForeignKey(
+        Lesson, on_delete=models.CASCADE,
+        related_name="progress"
+    )
+    completed = models.BooleanField(default=False)
+    completed_at = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        unique_together = ("student", "lesson")
+
+    def __str__(self):
+        return f"{self.student} - {self.lesson} - {'✓' if self.completed else '○'}"
